@@ -1,6 +1,10 @@
 4chan-archiver
 ==============
 
+Note:
+-----
+This archiver is outdated and won't be maintained anymore, I've made a new version called "chan archiver" and uploaded it to http://github.com/emoose/chan-archiver/, I'd suggest you either use that or one of the forks available.
+
 GNU public license 3 blah blah blah, can't be bothered to add the text and stuff in here. If you use/modify this just give credit to the github.
 
 These small scripts let you create your own little 4chan archive, without needing to use crappy advert ridden websites! (or overly worked on perl scripts, this is 4 hours work)
