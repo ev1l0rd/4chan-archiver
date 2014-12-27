@@ -6,12 +6,12 @@ Features I've removed for the sake of simplicity:
 
 Some of the features I've added:
 * Different Design: not sure if it's a huge improvement over emoose's, but it's a bit more colorful.
-* ZIP compression: you can create a ZIP archive of a thread at any time, it will be automatically updated once the thread 404's.
+* ZIP compression: you can create a ZIP archive of a thread at any time, it will be automatically updated once the thread 404's (or created if none exists, which you can deactivate in `config.php`).
 * Marked Threads: will show up at the top of the thread list
 * Added Column: see when each thread was added.
 * Posts Column: for each thread, the number of posts and images will be displayed.
 * Folder Size Stats.
-* More granular control of how often different kinds of threads are checked. Here's an example crontab:
+* More granular control over how often different kinds of threads are checked. Here's an example crontab:
 
 ```
 48 */4 * * *	php -f /path/to/cron.php
@@ -25,6 +25,8 @@ Known bugs:
 * If your browser window is narrower than 1440px, things might look out of place. Try decreasing the width of `table.threads input.desc` in `style.css`.
 * If adding a thread fails, make sure to remove the [appended subject/comment snippets](http://blog.4chan.org/post/82477681005/upcoming-namespace-changes).
 * Entries of the `Posts` table aren't always properly deleted.
+
+Below is the original `README.md`:
 
 ***
 
