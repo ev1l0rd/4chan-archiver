@@ -32,7 +32,11 @@ CREATE TABLE IF NOT EXISTS `Threads` (
   `Description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `Status` tinyint(1) NOT NULL,
   `LastChecked` int(15) NOT NULL,
-  `TimeAdded` int(15) NOT NULL
+  `TimeAdded` int(15) NOT NULL,
+  `Marked` tinyint(1) NOT NULL,
+  `PostCount` int(15) NOT NULL,
+  `FileCount` int(15) NOT NULL,
+  `NewestPostTime` int(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

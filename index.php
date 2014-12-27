@@ -1,222 +1,215 @@
 <?php
+$start_time = microtime(true);
+ini_set("max_execution_time", 600); // increase maximum execution time
 session_start();
 include "chan_archiver.php";
 $t = new chan_archiver();
-if ( !isset($archiver_config[ 'updater_enabled' ]) || $archiver_config[ 'updater_enabled' ] )
-    $t->doUpdate();
-
-// login stuff
-if ( isset( $_REQUEST[ 'login' ] ) && isset( $_REQUEST[ 'user' ] ) && isset( $_REQUEST[ 'pass' ] ) )
-{
-    $_SESSION[ 'uname' ] = $_REQUEST[ 'user' ];
-    $_SESSION[ 'pword' ] = $_REQUEST[ 'pass' ];
-}
-// commands
-$isloggedin = ( isset( $_SESSION[ 'uname' ] ) && isset( $_SESSION[ 'pword' ] ) && $_SESSION[ 'uname' ] == $archiver_config[ 'login_user' ] && $_SESSION[ 'pword' ] == $archiver_config[ 'login_pass' ] ) || !$archiver_config[ 'login_enabled' ];
-$delenabled = ( !$archiver_config[ 'login_del' ] || $isloggedin );
-$chkenabled = ( !$archiver_config[ 'login_chk' ] || $isloggedin );
-$addenabled = ( !$archiver_config[ 'login_add' ] || $isloggedin );
 
 $return = "";
-if ( $delenabled && isset( $_REQUEST[ 'del' ] ) && isset( $_REQUEST[ 'id' ] ) && isset( $_REQUEST[ 'brd' ] ) )
-    $return .= $t->removeThread( $_REQUEST[ 'id' ], $_REQUEST[ 'brd' ], $_REQUEST[ 'files' ] );
-
-if ( $chkenabled && isset( $_REQUEST[ 'chk' ] ) && isset( $_REQUEST[ 'id' ] ) && isset( $_REQUEST[ 'brd' ] ) )
-    $return .= $t->updateThread( $_REQUEST[ 'id' ], $_REQUEST[ 'brd' ] );
-
-if ( $chkenabled && isset( $_REQUEST[ 'chka' ] ) )
-    $return .= $t->checkThreads( false );
-
-if ( $delenabled && isset( $_REQUEST[ 'upd' ] ) && isset( $_REQUEST[ 'id' ] ) && isset( $_REQUEST[ 'brd' ] ) )
-    $return .= $t->setThreadDescription( $_REQUEST[ 'id' ], $_REQUEST[ 'brd' ], $_REQUEST[ 'desc' ] );
-
-if ( $addenabled && isset( $_REQUEST[ 'add' ] ) && isset( $_REQUEST[ 'url' ] ) )
-{
-    if ( substr( $_REQUEST[ 'url' ], 0, 7 ) != "http://" )
-        $_REQUEST[ 'url' ] = "http://" . $_REQUEST[ 'url' ];
-    if ( !isset( $_REQUEST[ 'desc' ] ) )
-        $_REQUEST[ 'desc' ] = "";
-    if ( $c = preg_match_all( "/.*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?((?:[a-z][a-z0-9_]*)).*?(\d+)/is", $_REQUEST[ 'url' ], $matches ) )
-        $return .= $t->addThread( $matches[ 2 ][ 0 ], $matches[ 1 ][ 0 ], $_REQUEST[ 'desc' ] );
+if (isset($_REQUEST['del']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->removeThread($_REQUEST['id'], $_REQUEST['brd'], $_REQUEST['files']);
+if (isset($_REQUEST['chk']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->updateThread($_REQUEST['id'], $_REQUEST['brd']);
+if (isset($_REQUEST['mrk']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->toggleMarkedThread($_REQUEST['id'], $_REQUEST['brd']);
+if (isset($_REQUEST['zip']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->zipThread($_REQUEST['id'], $_REQUEST['brd']);
+if (isset($_REQUEST['rmzip']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->rmZip($_REQUEST['id'], $_REQUEST['brd']);
+if (isset($_REQUEST['reac']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->reactivateThread($_REQUEST['id'], $_REQUEST['brd']);
+if (isset($_REQUEST['upd']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
+    $return .= $t->setThreadDescription($_REQUEST['id'], $_REQUEST['brd'], $_REQUEST['desc']);
+if (isset($_REQUEST['chkm']))
+    $return .= $t->checkThreads(true, false, false, false);
+if (isset($_REQUEST['chka']))
+    $return .= $t->checkThreads(false, false, false, false);
+if (isset($_REQUEST['add']) && isset($_REQUEST['url'])) {
+	$_REQUEST['url'] = str_replace("https://", "http://", $_REQUEST['url']);
+	if (substr($_REQUEST['url'], 0, 7) != "http://")
+        $_REQUEST['url'] = "http://" . $_REQUEST['url'];
+    if (!isset($_REQUEST['desc']))
+        $_REQUEST['desc'] = "";
+    if ($c = preg_match_all("/.*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?((?:[a-z][a-z0-9_]*)).*?(\d+)/is", $_REQUEST['url'], $matches))
+        $return .= $t->addThread($matches[2][0], $matches[1][0], $_REQUEST['desc']);
 }
-
-if ( $return != "" )
-{
-    $_SESSION[ 'returnvar' ] = $return;
-    header( 'Location: index.php' );
+if ($return != "") {
+    $_SESSION['returnvar'] = $return;
+    header('Location: index.php');
     exit;
 }
+
+$threadCount = $t->getThreadCount();
+$ongoingThreadCount = $t->getThreadCount(true);
 echo <<<ENDHTML
+<!DOCTYPE html>
 <html>
 <head>
-<title>4chan archiver - by anon e moose</title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
-<style type="text/css">
-.infobox{
-width:350px;
-border:solid 1px #DEDEDE;
-background:#FFFFCC url(images/menu_tick.png) 8px 6px no-repeat;
-color:#222222;
-padding:4px;
-text-align:center;
-}
-.alertbox{
-width:350px;
-border:solid 1px #DEDEDE;
-background:#FF3330 url(images/menu_light.png) 8px 6px no-repeat;
-color:#222222;
-padding:4px;
-text-align:center;
-}
-</style>
+    <title>$ongoingThreadCount/$threadCount - 4chan archiver</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<a href="http://github.com/emoose/4chan-archiver/"><h2>4chan archiver - by anon e moose</h2></a>
-ENDHTML;
-if ( $t->updateAvailable )
-{
-    echo <<<ENDHTML
-    <div class="alertbox">There is an <a href="{$t->updaterurl}" onclick="alert('make sure you delete version.txt after updating!');">update</a> available! <a href="{$t->compareurl}{$t->currentVersion}...{$t->latestVersion}">(diff)</a></div><br />
-ENDHTML;
-}
-if ( isset( $_SESSION[ 'returnvar' ] ) && $_SESSION[ 'returnvar' ] != "" )
-{
-    $arr = explode( '<br />', $_SESSION[ 'returnvar' ] );
-    foreach ( $arr as $str )
-    {
-        if ( empty( $str ) || strlen( $str ) <= 3 )
-            continue;
-        echo <<<ENDHTML
-    <div class="infobox">$str</div><br />
-ENDHTML;
-    }
-    $_SESSION[ 'returnvar' ] = "";
-    unset( $_SESSION[ 'returnvar' ] );
-}
-
-if ( !$isloggedin )
-{
-    echo <<<ENDHTML
+<div class="header">
 <form action="?refresh" method="POST">
-<table border="1" bordercolor="#FFCC00" style="background-color:#FFFFCC" width="340" cellpadding="3" cellspacing="3">
-	<tr>
-        <td><b>Admin Login</b></td>
-    </tr>
-    <tr>
-        <td>Username: <input type="text" name="user" size="20" /></td>
-    </tr>
-    <tr>
-        <td>Password: <input type="password" name="pass" size="20" /></td>
-        <td><input type="submit" name="login" value="Login"/></td>
-    </tr>
-</table>
-</form>
+<table class="add">
 ENDHTML;
-    
-}
-
-else if ( $archiver_config[ 'login_enabled' ] )
+if (isset($_SESSION['returnvar']) && $_SESSION['returnvar'] != "" && $rtrn = $_SESSION['returnvar'])
 {
     echo <<<ENDHTML
-<form action="?refresh" method="POST">
-<input type="hidden" name="user" value="" />
-<input type="hidden" name="pass" value="" />
-<input type="submit" name="login" value="Logout"/>
-</form>
-ENDHTML;
-}
-if ( $addenabled )
-{
-    echo <<<ENDHTML
-<form action="?refresh" method="POST">
-<table border="1" bordercolor="#FFCC00" style="background-color:#FFFFCC" width="610" cellpadding="3" cellspacing="3">
-	<tr>
+    <tr class="success">
         <td><b>Add Thread</b></td>
+		<td colspan="2">$rtrn</td>
+    </tr>
+ENDHTML;
+    $_SESSION['returnvar'] = "";
+    unset($_SESSION['returnvar']);
+} else {
+	echo <<<ENDHTML
+    <tr>
+        <td><b>Add Thread</b></td>
+		<td colspan="2"> </td>
+    </tr>
+ENDHTML;
+}
+	echo <<<ENDHTML
+    <tr>
+        <td>Thread URL:</td>
+		<td><input type="text" class="url" name="url" size="60" /></td>
+		<td> </td>
     </tr>
     <tr>
-        <td>Thread URL: <input type="text" name="url" size="60" /></td>
-    </tr>
-    <tr>
-        <td>Thread Description: <input type="text" name="desc" size="60" /></td>
-        <td><input type="submit" name="add" value="Add"/></td>
+        <td>Thread Description:</td>
+		<td><input type="text" class="desc" name="desc" size="60" /></td>
+        <td><input type="submit" class="add" name="add" value="Add"/></td>
     </tr>
 </table>
 </form>
-ENDHTML;
-}
-$threads = $t->getThreads();
-echo "<form action=\"?refresh\" method=\"POST\">";
-if ( $chkenabled )
-{
-    $onclick = $t->getOngoingThreadCount() >= 10 ? "alert('Since you have many ongoing threads it may seem like the page has hung, just be patient and they will all update');" : "";
-    echo <<<ENDHTML
-<form action="?refresh" method="POST">
-<input type="submit" name="chka" onclick="$onclick" value="Recheck All"/>
-</form>
-ENDHTML;
-}
-echo <<<ENDHTML
-<table border="1" bordercolor="#FFCC00" style="background-color:#FFFFCC" width="900" cellpadding="3" cellspacing="3">
+</div>
+<table class="threads">
 	<tr>
 		<td>Thread ID</td>
 		<td>Board</td>
 		<td>Description</td>
-		<td>Status</td>
+        <td>Added</td>
 		<td>Last Checked</td>
-		<td>Last Post</td>
+        <td>Posts</td>
+		<td>Latest Post</td>
 		<td>Actions</td>
 	</tr>
 ENDHTML;
-$i = 0;
-foreach ( $threads as $thr )
-{
-    $thrlink     = sprintf( $t->threadurl, $thr[ 1 ], $thr[ 0 ] );
-    $lastchecked = time() - $thr[ 3 ] . " seconds ago";
-    if ( $thr[ 3 ] == 0 )
-        $lastchecked = "never";
-    $status = $thr[ 2 ] == 1 ? "Ongoing" : "404'd";
-    $local  = $archiver_config[ 'pubstorage' ] . $thr[ 1 ] . "/" . $thr[ 0 ] . ".html";
-    $link   = "<a href=\"$thrlink\">{$thr[0]}</a> <a href=\"$local\">(local)</a>";
-    $check  = $chkenabled ? "<input type=\"submit\" name=\"chk\" value=\"Check\"/>" : "";
-    $desc   = $delenabled ? "<input type=\"text\" name=\"desc\" value=\"{$thr[4]}\"/><input type=\"submit\" name=\"upd\" value=\"Update\"/>" : $thr[ 4 ];
-    if ( $thr[ 2 ] == 0 )
-    {
-        $lastchecked = "";
-        $link        = "<a href=\"$local\">{$thr[0]}</a>";
-        $check       = "";
-    }
-    if ( $delenabled )
-        $check .= <<<ENDHTML
-    <input type="submit" name="del" onclick="if(confirm('Delete files too?')) document.getElementById('files{$i}').value='1';" value="Remove"/>
-ENDHTML;
-    $lastpost = date( "m/d/y, g:i a", $thr[ 5 ] );
-    if ( $thr[ 5 ] == "" || $thr[ 5 ] <= 0 )
-        $lastpost = "N/A";
-    echo <<<ENDHTML
 
-    <form action="?refresh" method="POST">
-    <input type="hidden" name="id" value="{$thr[0]}"/>
-    <input type="hidden" name="brd" value="{$thr[1]}"/>
-    <input type="hidden" name="files" id="files{$i}" value="0"/>
-	<tr>
-		<td>$link</td>
-		<td>{$thr[1]}</td>
-		<td>$desc</td>
-		<td>$status</td>
-		<td>$lastchecked</td>
-		<td>$lastpost</td>
-		<td>$check</td>
-	</tr>
-    </form>
-ENDHTML;
-    $i++;
+function ago($timestamp, $unit, $digits = false) {
+    $difference = time() - $timestamp;
+    if ($unit == "d") {
+        $ago = $difference / 86400;
+        $unit = "day";
+    } else if ($unit == "h") {
+        $ago = $difference / 3600;
+        $unit = "hour";
+    } else if ($unit == "m") {
+        $ago = $difference / 60;
+        $unit = "minute";
+    } else {
+        $ago = $difference;
+        $unit = "second";
+    }
+    if ($digits === false) return $ago; // no label wanted
+    $ago = number_format($ago, $digits);
+    if ($ago != 1 || $digits != 0) $unit .= "s"; // 1.0 does not refer to a single thing, it is a dimensional measure of size. It doesn't qualify as singular.
+    return "$ago $unit ago";
 }
 
-echo "</table><br />";
-$bookmarkleturl = "http://" . ( $_SERVER[ 'HTTP_HOST' ] ? $_SERVER[ 'HTTP_HOST' ] : $_SERVER[ "SERVER_NAME" ] ) . $_SERVER[ "SCRIPT_NAME" ];
-?>
-<font size="1" family="Verdana">downloaded from <a href="http://github.com/emoose/4chan-archiver/">github.com/emoose/4chan-archiver</a>. <abbr title="use this when you're on the page you want to archive"><a href="javascript:open('<?php
-echo $bookmarkleturl;
-?>?add=Add&url=' + document.URL.replace('http://', ''));">bookmarklet</a></abbr></font>
+$threads = $t->getThreads();
+
+$i = 0;
+$totalPosts = 0;
+$totalImages = 0;
+foreach ($threads as $thr)
+{
+    $i++;
+    $totalPosts += $thr["PostCount"];
+    $totalImages += $thr["FileCount"];
+
+    $thrlink = sprintf($t->threadurl, $thr["Board"], $thr["ID"]);
+    $added = "<abbr title=\"" . date("Y-m-d, H:i", $thr["TimeAdded"]) . "\">" . ago($thr["TimeAdded"], "d", 0) . "</abbr>";
+    $lastchecked = "<abbr title=\"" . date("Y-m-d, H:i", $thr["LastChecked"]) . "\">" . ago($thr["LastChecked"], "m", 0) . "</abbr>";
+    $status = ($thr["Status"] == 1) ? "ongoing" : "";
+    $marked = ($thr["Marked"] == 1) ? "marked" : "";
+    $local  = $archiver_config['pubstorage'] . $thr["Board"] . "/" . $thr["ID"] . ".html";
+    $link   = "<a href=\"$thrlink\">{$thr["ID"]}</a> <a href=\"$local\">(local)</a>";
+    $check  = "<input type=\"submit\" class=\"check\" name=\"chk\" value=\"Check\"/>";
+    $desc   = "<input type=\"text\" class=\"desc\" name=\"desc\" value=\"{$thr["Description"]}\"/> <div class=\"right\"><input type=\"submit\" class=\"upd\" name=\"upd\" value=\"Update\"/> <input type=\"submit\" class=\"mark\" name=\"mrk\" value=\"" . ( $thr["Marked"] == 1 ? "Unmark" : "Mark" ) . "\"/></div>";
+    if ($thr["Status"] == 0) {
+        $lastchecked = "<abbr title=\"" . date("Y-m-d, H:i", $thr["LastChecked"]) . "\">" . ago($thr["LastChecked"], "d", 0) . "</abbr>";
+		$link = "<a href=\"$local\">{$thr["ID"]}</a>";
+        $check = "<input type=\"submit\" class=\"reactivate\" name=\"reac\" value=\"Check\"/>";
+    }
+    if ($thr["LastChecked"] == 0)
+        $lastchecked = "never";
+    if (file_exists($archiver_config['storage'] . $thr["Board"] . "/" . $thr["Board"] . "_" . $thr["ID"] . ".zip")) {
+        $filesize = round(filesize($archiver_config['storage'] . $thr["Board"] . "/" . $thr["Board"] . "_" . $thr["ID"] . ".zip") / 1048576, 2);
+        $link .= " <a href=\"" . $archiver_config['pubstorage'] . $thr["Board"] . "/" . $thr["Board"] . "_" . $thr["ID"] . ".zip\" title=\"" . $filesize ." MB\">(zip)</a>";
+        $check .= " <input type=\"submit\" class=\"del\" name=\"rmzip\" value=\"ZIP\"/>";
+    } else {
+        $check .= " <input type=\"submit\" class=\"zip\" name=\"zip\" value=\"ZIP\"/>";
+    }
+    $check .= " <input type=\"submit\" class=\"del\" name=\"del\" onclick=\"document.getElementById('files{$i}').value='1';\" value=\"Remove\"/>";
+    $postcount = ($thr["PostCount"] > 0) ? ( ($thr["PostCount"] == 765) ? "<em>"  . $thr["PostCount"] . "</em>" : $thr["PostCount"]) . " " . (($thr["FileCount"] == 151 || $thr["FileCount"] == 251) ? "<em>(" . $thr["FileCount"] . ")</em>" : "(" . $thr["FileCount"] . ")") : "";
+    $lastpost = "<td class=\"" . ( (ago($thr["NewestPostTime"], "h") > 24) ? ( (ago($thr["NewestPostTime"], "h") > 72) ? "veryoldlastpost" : "oldlastpost" ) : "lastpost" ) . "\"><abbr title=\"" . date( "Y-m-d, H:i", $thr["NewestPostTime"] ) . "\">";
+    if ($thr["Status"] == 0) $lastpost .= ago($thr["NewestPostTime"], "d", 0);
+    else if (ago($thr["NewestPostTime"], "h") < 3) $lastpost .= ago($thr["NewestPostTime"], "h", 1);
+    else $lastpost .= ago($thr["NewestPostTime"], "h", 0);
+    $lastpost .= "</abbr></td>";
+    if (empty($thr["NewestPostTime"]) || $thr["NewestPostTime"] <= 0)
+        $lastpost = "<td></td>";
+    echo <<<ENDHTML
+    <form action="?refresh" method="POST">
+    <input type="hidden" name="id" value="{$thr["ID"]}"/>
+    <input type="hidden" name="brd" value="{$thr["Board"]}"/>
+    <input type="hidden" name="files" id="files{$i}" value="0"/>
+    	<tr class="threadrow $status $marked">
+    		<td>$link</td>
+    		<td><a href="https://boards.4chan.org/{$thr["Board"]}/catalog">/{$thr["Board"]}/</a></td>
+    		<td style="width: 650px;">$desc</td>
+            <td>$added</td>
+    		<td>$lastchecked</td>
+            <td>$postcount</td>
+    		$lastpost
+    		<td>$check</td>
+    	</tr>
+    </form>
+ENDHTML;
+}
+$runtime = round((microtime(true) - $start_time) * 1000);
+$directory_size = round(file_get_contents("cron_size.txt") / 1073741824, 2);
+$time = date("H:i");
+echo <<<ENDHTML
+	<tr>
+        <td colspan="2">
+            ${runtime}ms, ${directory_size}GB, $time
+        </td>
+		<td colspan="6">
+            <form action="?refresh" method="POST">
+ENDHTML;
+echo $ongoingThreadCount . " active threads, " . ($threadCount - $ongoingThreadCount) . " inactive threads, " . $threadCount . " total threads, " . $totalPosts . " posts, " . $totalImages . " images ";
+echo <<<ENDHTML
+                <input type="submit" class="check" name="chkm" value="Recheck Marked"/>
+                <input type="submit" class="check" name="chka" value="Recheck All"/>
+            </form>
+        </td>
+    </tr>
+</table>
+ENDHTML;
+
+$bookmarkleturl = "http://" . ($_SERVER['HTTP_HOST'] ? $_SERVER['HTTP_HOST'] : $_SERVER["SERVER_NAME"]) . $_SERVER["SCRIPT_NAME"];
+echo <<<ENDHTML
+<!--<p>
+    <a href="http://github.com/emoose/4chan-archiver/"><strong>4chan archiver - by anon e moose</strong> downloaded from github.com/emoose/4chan-archiver.</a><br />
+    To add threads, you can use the <abbr title="use this when you're on the page you want to archive"><a href="javascript:open('$bookmarkleturl?add=Add&url=' + document.URL.replace('http://', ''));">bookmarklet</a></abbr>.<br />
+    Runtime: $runtime<span>s</span>, folder size: $directory_size, time: $time
+</p>-->
 </body>
 </html>
+ENDHTML;
+?>

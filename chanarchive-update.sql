@@ -1,1 +1,0 @@
-ALTER TABLE  `Posts` ADD  `PostTime` INT( 15 ) NOT NULL

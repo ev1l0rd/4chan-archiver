@@ -1,0 +1,170 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+}
+div.header {
+	padding: 40px;
+	background: #fff url(bg.jpg) no-repeat;
+	background-size: 100% auto;
+}
+table {
+	font-size: 12px;
+}
+table.threads {
+	border-collapse: collapse;
+	width: 100%;
+	background-color: white;
+}
+table.add {
+	border-collapse: collapse;
+	margin: 40px;
+	border: 1px solid #999;
+}
+div.header table.add {
+	/*opacity: .3;*/
+	margin: 0;
+}
+/*div.header:hover table.add {
+	opacity: 1;
+}*/
+table.threads td, table.add td {
+	border-bottom:1px solid #999;
+	border-top: 1px solid #999;
+	padding: 4px;
+}
+table.threads tr, table.add tr {
+	background-color: rgb(245,245,245);
+}
+table.add tr.success {
+	background-color: rgb(153,255,153);
+}
+table.add tr.failure {
+	background-color: rgb(255,128,128);
+}
+table.add tr.success td, table.add tr.failure td {
+	padding-bottom: 3px;
+}
+table.threads tr:first-child, table.add tr:first-child {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: .9em;
+}
+table.add tr:first-child td:last-child {
+	font-weight: normal;
+	text-transform: none;
+	font-size: 1.1em;
+	text-align: right;
+}
+table.threads tr.ongoing {
+	background-color: rgb(153,255,153);
+}
+table.threads tr.threadrow:hover {
+	background-color: rgba(245,245,245,0.4);
+}
+table.threads tr.ongoing:hover {
+	background-color: rgba(153,255,153,0.5);
+}
+table.threads tr td:last-child {
+	text-align: right;
+	width: 165px;
+}
+table.threads tr.marked td.lastpost {
+	color: rgb(48,136,48);
+}
+table.threads tr.marked td.oldlastpost {
+	color: rgb(176,176,48);
+}
+table.threads tr.marked td.veryoldlastpost {
+	color: rgb(192,64,64);
+}
+input.del, input.check, input.reactivate, input.upd, input.mark, input.zip {
+	border: 4px solid transparent;
+	padding: 1px 6px;
+}
+input.add {
+	border: 2px solid transparent;
+	padding: 1px 6px;
+}
+input.del:hover, input.check:hover, input.upd:hover, input.mark:hover, input.add:hover, input.zip:hover {
+	opacity: 0.5;
+}
+input.check {
+	background-color: rgba(0,0,0,0.1);
+}
+input.reactivate {
+	opacity: 0;
+}
+input.del {
+	background-color: rgb(255,128,128);
+}
+input.upd, input.desc {
+	vertical-align: top;
+}
+input.upd, input.add, input.mark, input.zip {
+	background-color: rgba(200,200,200,0.4);
+}
+input.desc, input.url {
+	border: 1px solid #ADADAD;
+}
+table.add input.desc, input.url {
+	padding: 2px 1px;
+}
+table.threads input.desc {
+	background-color: transparent;
+	border: 0;
+	outline: 0;
+	width: 515px;
+	padding: 5px 0px 3px;
+	font: 12px Helvetica, Arial, sans-serif;
+	float: left;
+}
+table.threads tr:hover input.desc, table.threads tr input.desc:focus {
+	border-bottom: 1px solid rgba(1,1,1,0.3);
+}
+table.threads input.desc:hover {
+	background-color: rgba(255,255,255,0.75);
+}
+table.threads input.desc:focus {
+	background-color: rgba(255,255,255,0.95);
+}
+table.threads tr.marked input.desc {
+	color: rgb(192,64,64);
+}
+table.threads input.mark, table.threads input.upd {
+	visibility: hidden;
+}
+table.threads tr:hover input.mark, table.threads tr:hover input.upd {
+	visibility: visible;
+}
+table.threads tr:last-child td:first-child {
+	color: #999;
+}
+.right {
+	float: right;
+}
+p {
+	padding: 20px;
+	text-align: center;
+	opacity: .5;
+	text-transform: uppercase;
+	font-size: .9em;
+}
+p span {
+	text-transform: lowercase;
+}
+p:hover {
+	opacity: 1;
+}
+a {
+	color: #222
+}
+a:hover {
+	text-decoration: none;
+}
+a:visited {
+	color: #777;
+}

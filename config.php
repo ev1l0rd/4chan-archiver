@@ -6,44 +6,28 @@ $archiver_config = array();
 // -----------------------------------------------------------
 
 // where to store files, this folder should probably get made by you with 777 perms
-$archiver_config[ 'storage' ] = "/home/<user>/public_html/chandl/arch/";
+$archiver_config["storage"] = "";
 
 // the publicly accessible link to the file store
-$archiver_config[ 'pubstorage' ] = "http://example.com/chandl/arch/";
+$archiver_config["pubstorage"] = "";
+
+// -----------------------------------------------------------
+// FUNCTIONS CONFIG
+// some functionality may be disabled for faster performance
+// -----------------------------------------------------------
+
+// whether to zip threads once they 404; a ZIP button will be displayd to
+// addenabled users no matter what - also, if a ZIP was generated via the ZIP
+// button (or manually), the thread will be zipped again once it 404s
+$archiver_config["zip_threads"] = false;
 
 // -----------------------------------------------------------
 // MYSQL CONFIG
 // self explanatory
 // -----------------------------------------------------------
 
-$archiver_config[ 'mysql_host' ] = "localhost";
-$archiver_config[ 'mysql_user' ] = "anon";
-$archiver_config[ 'mysql_pass' ] = "omglegionlol";
-$archiver_config[ 'mysql_db' ]   = "chanarchive";
-
-// -----------------------------------------------------------
-// ACCESS CONTROL
-// if all these are false login is disabled
-// -----------------------------------------------------------
-
-// if this is set to true you need to login to manually check threads
-$archiver_config[ 'login_chk' ] = false;
-
-// if this is set to true you need to login to add threads
-$archiver_config[ 'login_add' ] = false;
-
-// if this is set to true you need to login to delete or change description of threads
-$archiver_config[ 'login_del' ] = false;
-
-// username & password for login
-$archiver_config[ 'login_user' ] = "eggman";
-$archiver_config[ 'login_pass' ] = "implying";
-
-// -----------------------------------------------------------
-// ADVANCED STUFF
-// you should probably leave this alone
-// -----------------------------------------------------------
-
-$archiver_config[ 'updater_enabled' ] = true;
-$archiver_config[ 'login_enabled' ]   = $archiver_config[ 'login_del' ] || $archiver_config[ 'login_add' ] || $archiver_config[ 'login_chk' ];
+$archiver_config["mysql_host"] = "localhost";
+$archiver_config["mysql_user"] = "";
+$archiver_config["mysql_pass"] = "";
+$archiver_config["mysql_db"]   = "";
 ?>
