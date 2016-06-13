@@ -1,4 +1,6 @@
-Note: This is my personal, mostly rewritten and thus incompatible fork of emoose's 4chan-archiver. I've stopped using and maintaining it [in mid 2014](https://www.youtube.com/watch?v=Hhx6IfKrvEQ), but it's still working mostly fine as of 2014-12-27.
+Note: This is my personal, mostly rewritten and thus incompatible fork of emoose's 4chan-archiver. I've stopped using and maintaining it [in mid 2014](https://www.youtube.com/watch?v=Hhx6IfKrvEQ), but it's still working mostly fine as of ~~2014-12-27~~ 2016-06-13.
+
+![Example](https://raw.githubusercontent.com/doersino/4chan-archiver/master/screenshot.jpg)
 
 Features I've removed for the sake of simplicity:
 * Username/password authentication. I recommend running 4chan-archiver in a directory that's password-protected using `.htaccess` or similar (which is more secure anyway).
