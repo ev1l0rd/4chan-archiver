@@ -1,19 +1,33 @@
 Note: This is my personal, mostly rewritten and thus incompatible fork of emoose's 4chan-archiver. I've stopped using and maintaining it [in mid 2014](https://www.youtube.com/watch?v=Hhx6IfKrvEQ), but it's still working mostly fine as of ~~2014-12-27~~ 2016-06-13.
 
-![Example](https://raw.githubusercontent.com/doersino/4chan-archiver/master/screenshot.jpg)
+![Example](https://raw.githubusercontent.com/ev1l0rd/4chan-archiver/master/screenshot.jpg)
 
 Features I've removed for the sake of simplicity:
 * Username/password authentication. I recommend running 4chan-archiver in a directory that's password-protected using `.htaccess` or similar (which is more secure anyway).
 * Automatic updates.
 
-Some of the features I've added:
+Some of the features doersino added:
 * Different Design: not sure if it's a huge improvement over emoose's, but it's a bit more colorful.
 * ZIP compression: you can create a ZIP archive of a thread at any time, it will be automatically updated once the thread 404's (or created if none exists, which you can deactivate in `config.php`).
 * Marked Threads: will show up at the top of the thread list
 * Added Column: see when each thread was added.
 * Posts Column: for each thread, the number of posts and images will be displayed.
 * Folder Size Stats.
-* More granular control over how often different kinds of threads are checked. Here's an example crontab:
+* More granular control over how often different kinds of threads are checked. There's an example crontab below.
+
+The features I (ev1l0rd) added:
+* New: [cron_monitor.php](https://github.com/ev1l0rd/4chan-archiver/wiki/cron_monitor.php) - Monitors the board catalog for a specific string in a thread subject. Useful for tracking generals. Note that this feature uses the 4cdn API
+
+To-Do:
+* Modify cron_monitor.php to also check for thread body. - Subject is not always set.
+* Add table prefixes. - The program only uses two databases at the moment. It is a waste (and annoying for shared hosting which limits the amount of mySQL DBs) to force the archiver to one DB per instance.
+* Add install.php script to automate config.php generation for first time usage.
+* Fix SQL leaks (lol) -very much in the longterm-
+* Add 'safe mode'. Disables all input boxes and buttons in index.php
+* Do some minor CSS fixes (button text is currently unreadable when using Ubuntu Budgie).
+* Add some static pages to detail how to use.
+* Add theming support.
+* Probably some other stuff as well. We'll see.
 
 ```
 48 */4 * * *	php -f /path/to/cron.php
