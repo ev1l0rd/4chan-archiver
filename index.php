@@ -102,7 +102,7 @@ echo <<<ENDHTML
 </form>
 </div>
 ENDHTML;
-}
+}}
 echo <<<ENDHTML
 <table class="threads">
 	<tr>
