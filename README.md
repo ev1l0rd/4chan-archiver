@@ -17,6 +17,7 @@ Some of the features doersino added:
 
 The features I (ev1l0rd) added:
 * New: [cron_monitor.php](https://github.com/ev1l0rd/4chan-archiver/wiki/cron_monitor.php) - Monitors the board catalog for a specific string in a thread subject. Useful for tracking generals. Note that this feature uses the 4cdn API
+* Modified: CSS buttons and description boxes (except for the Add button) have their color set to black to ensure readability.
 
 To-Do:
 * Modify cron_monitor.php to also check for thread body. - Subject is not always set.
@@ -24,7 +25,6 @@ To-Do:
 * Add install.php script to automate config.php generation for first time usage.
 * Fix SQL leaks (lol) -very much in the longterm-
 * Add 'safe mode'. Disables all input boxes and buttons in index.php
-* Do some minor CSS fixes (button text is currently unreadable when using Ubuntu Budgie).
 * Add some static pages to detail how to use.
 * Add theming support.
 * Probably some other stuff as well. We'll see.
