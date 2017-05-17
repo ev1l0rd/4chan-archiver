@@ -17,7 +17,7 @@ Some of the features doersino added:
 
 The features I (ev1l0rd) added:
 * New: [cron_monitor.php](https://github.com/ev1l0rd/4chan-archiver/wiki/cron_monitor.php) - Monitors the board catalog for a specific string in a thread subject. Useful for tracking generals. Note that this feature uses the 4cdn API
-* Modified: CSS buttons and description boxes (except for the Add button) have their color set to black to ensure readability.
+* Modified: CSS buttons and description boxes have their color set to black to ensure readability.
 
 To-Do:
 * Modify cron_monitor.php to also check for thread body. - Subject is not always set.

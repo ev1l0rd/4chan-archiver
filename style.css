@@ -89,6 +89,7 @@ input.del, input.check, input.reactivate, input.upd, input.mark, input.zip {
 input.add {
 	border: 2px solid transparent;
 	padding: 1px 6px;
+	color: black;
 }
 input.del:hover, input.check:hover, input.upd:hover, input.mark:hover, input.add:hover, input.zip:hover {
 	opacity: 0.5;
