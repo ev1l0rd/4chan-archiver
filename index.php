@@ -57,13 +57,11 @@ echo <<<ENDHTML
 <form action="?refresh" method="POST">
 <table class="add">
 ENDHTML;
+if ($archiver_config === 'true'){
 if (isset($_SESSION['returnvar']) && $_SESSION['returnvar'] != "" && $rtrn = $_SESSION['returnvar'])
 {
     echo <<<ENDHTML
     <tr class="success">
-ENDHTML;
-	if ($archiver_config["safe_mode"] !== "true"){
-	echo <<<ENDHTML
         <td><b>Add Thread</b></td>
 		<td colspan="2">$rtrn</td>
     </tr>
@@ -73,9 +71,6 @@ ENDHTML;
 } else {
 	echo <<<ENDHTML
     <tr>
-ENDHTML;
-	if ($archiver_config["safe_mode"] !== "true"){
-	echo <<<ENDHTML
         <td><b>Add Thread</b></td>
 		<td colspan="2"> </td>
     </tr>
@@ -84,13 +79,7 @@ ENDHTML;
 	echo <<<ENDHTML
     <tr>
         <td>Thread URL:</td>
-ENDHTML;
-	if ($archiver_config["safe_mode"] !== "true"){
-		echo <<<ENDHTML
 		<td><input type="text" class="url" name="url" size="60" /></td>
-ENDHTML;
-}
-echo <<<ENDHTML
 		<td> </td>
     </tr>
     <tr>
@@ -98,12 +87,13 @@ echo <<<ENDHTML
 		<td><input type="text" class="desc" name="desc" size="60" /></td>
         <td><input type="submit" class="add" name="add" value="Add"/></td>
     </tr>
+ENDHTML;
+}
+
+echo <<<ENDHTML
 </table>
 </form>
 </div>
-ENDHTML;
-}}
-echo <<<ENDHTML
 <table class="threads">
 	<tr>
 		<td>Thread ID</td>
