@@ -188,7 +188,7 @@ if ($archiver_config["safe_mode"] !== "true"){
     } else {
         $check .= " <input type=\"submit\" class=\"zip\" name=\"zip\" value=\"ZIP\"/>";
     }
-    $check .= " <input type=\"submit\" class=\"del\" name=\"del\" onclick=\"return confirm('Are you sure?');document.getElementById('files{$i}').value='1';\" value=\"Remove\"/>";
+    $check .= " <input type=\"submit\" class=\"del\" name=\"del\" onclick=\"return confirm('This will remove the thread, including all related files! If you do not want this, turn back now!');document.getElementById('files{$i}').value='1';\" value=\"Remove\"/>";
     $postcount = ($thr["PostCount"] > 0) ? ( ($thr["PostCount"] == 765) ? "<em>"  . $thr["PostCount"] . "</em>" : $thr["PostCount"]) . " " . (($thr["FileCount"] == 151 || $thr["FileCount"] == 251) ? "<em>(" . $thr["FileCount"] . ")</em>" : "(" . $thr["FileCount"] . ")") : "";
     $lastpost = "<td class=\"" . ( (ago($thr["NewestPostTime"], "h") > 24) ? ( (ago($thr["NewestPostTime"], "h") > 72) ? "veryoldlastpost" : "oldlastpost" ) : "lastpost" ) . "\"><abbr title=\"" . date( "Y-m-d, H:i", $thr["NewestPostTime"] ) . "\">";
     if ($thr["Status"] == 0) $lastpost .= ago($thr["NewestPostTime"], "d", 0);
