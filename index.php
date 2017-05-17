@@ -120,10 +120,15 @@ echo <<<ENDHTML
 		<td>Last Checked</td>
         <td>Posts</td>
 		<td>Latest Post</td>
+ENDHTML;
+if ($archiver_config["safe_mode"] !== "true"){
+	echo <<<ENDHTML
 		<td>Actions</td>
+ENDHTML;
+}
+echo <<<ENDHTML
 	</tr>
 ENDHTML;
-
 function ago($timestamp, $unit, $digits = false) {
     $difference = time() - $timestamp;
     if ($unit == "d") {
@@ -201,7 +206,13 @@ foreach ($threads as $thr)
     		<td>$lastchecked</td>
             <td>$postcount</td>
     		$lastpost
+ENDHTML;
+if ($archiver_config["safe_mode"] !== "true"){
+	echo <<<ENDHTML
     		<td>$check</td>
+ENDHTML;
+}
+echo <<<ENDHTML
     	</tr>
     </form>
 ENDHTML;
