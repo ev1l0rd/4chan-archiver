@@ -18,13 +18,13 @@ Some of the features doersino added:
 The features I (ev1l0rd) added:
 * New: [cron_monitor.php](https://github.com/ev1l0rd/4chan-archiver/wiki/cron_monitor.php) - Monitors the board catalog for a specific string in a thread subject. Useful for tracking generals. Note that this feature uses the 4cdn API
 * Modified: CSS buttons and description boxes have their color set to black to ensure readability.
+* New: [Safe mode](https://github.com/ev1l0rd/4chan-archiver/wiki/safe-mode.php) - Disables all methods of input in index.php (includes undocumented parameters such as add). Basically blocks all additions or modifications to a thread, except through PHPmyAdmin or threads added through cron_monitor.php . Pages will continue to be updated if you have the cronjob set up.
 
 To-Do:
 * Modify cron_monitor.php to also check for thread body. - Subject is not always set.
 * Add table prefixes. - The program only uses two databases at the moment. It is a waste (and annoying for shared hosting which limits the amount of mySQL DBs) to force the archiver to one DB per instance.
 * Add install.php script to automate config.php generation for first time usage.
 * Fix SQL leaks (lol) -very much in the longterm-
-* Add 'safe mode'. Disables all input boxes and buttons in index.php
 * Add some static pages to detail how to use.
 * Add theming support.
 * Probably some other stuff as well. We'll see.
