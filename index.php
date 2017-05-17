@@ -169,7 +169,11 @@ foreach ($threads as $thr)
     $local  = $archiver_config['pubstorage'] . $thr["Board"] . "/" . $thr["ID"] . ".html";
     $link   = "<a href=\"$thrlink\">{$thr["ID"]}</a> <a href=\"$local\">(local)</a>";
     $check  = "<input type=\"submit\" class=\"check\" name=\"chk\" value=\"Check\"/>";
+if ($archiver_config["safe_mode"] !== "true"){
     $desc   = "<input type=\"text\" class=\"desc\" name=\"desc\" value=\"{$thr["Description"]}\"/> <div class=\"right\"><input type=\"submit\" class=\"upd\" name=\"upd\" value=\"Update\"/> <input type=\"submit\" class=\"mark\" name=\"mrk\" value=\"" . ( $thr["Marked"] == 1 ? "Unmark" : "Mark" ) . "\"/></div>";
+} else {
+    $desc   = "<input type=\"text\" class=\"desc\" name=\"desc\" value=\"{$thr["Description"]}\"/></div>";
+}
     if ($thr["Status"] == 0) {
         $lastchecked = "<abbr title=\"" . date("Y-m-d, H:i", $thr["LastChecked"]) . "\">" . ago($thr["LastChecked"], "d", 0) . "</abbr>";
 		$link = "<a href=\"$local\">{$thr["ID"]}</a>";
