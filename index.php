@@ -6,7 +6,7 @@ include "chan_archiver.php";
 $t = new chan_archiver();
 
 $return = "";
-if ($archiver_config["safe_mode"] === "true"){
+if ($archiver_config["safe_mode"] !== "true"){
 if (isset($_REQUEST['del']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
     $return .= $t->removeThread($_REQUEST['id'], $_REQUEST['brd'], $_REQUEST['files']);
 if (isset($_REQUEST['chk']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
@@ -43,19 +43,25 @@ if ($return != "") {
 
 $threadCount = $t->getThreadCount();
 $ongoingThreadCount = $t->getThreadCount(true);
+$title = $archiver_config['title'];
 echo <<<ENDHTML
 <!DOCTYPE html>
 <html>
 <head>
-    <title>$ongoingThreadCount/$threadCount - 4chan archiver</title>
+    <title>$ongoingThreadCount/$threadCount - $title</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+ENDHTML;
+if ($archiver_config["safe_mode"] !== "true"){
+	echo <<<ENDHTML
 <div class="header">
 <form action="?refresh" method="POST">
 <table class="add">
 ENDHTML;
+}
+if ($archiver_config["safe_mode"] !== "true"){
 if (isset($_SESSION['returnvar']) && $_SESSION['returnvar'] != "" && $rtrn = $_SESSION['returnvar'])
 {
     echo <<<ENDHTML
@@ -88,6 +94,9 @@ ENDHTML;
 </table>
 </form>
 </div>
+ENDHTML;
+}
+echo <<<ENDHTML
 <table class="threads">
 	<tr>
 		<td>Thread ID</td>
@@ -195,9 +204,13 @@ echo <<<ENDHTML
             <form action="?refresh" method="POST">
 ENDHTML;
 echo $ongoingThreadCount . " active threads, " . ($threadCount - $ongoingThreadCount) . " inactive threads, " . $threadCount . " total threads, " . $totalPosts . " posts, " . $totalImages . " images ";
+if ($archiver_config["safe_mode"] !== "true"){
 echo <<<ENDHTML
                 <input type="submit" class="check" name="chkm" value="Recheck Marked"/>
                 <input type="submit" class="check" name="chka" value="Recheck All"/>
+ENDHTML;
+}
+echo <<<ENDHTML
             </form>
         </td>
     </tr>
