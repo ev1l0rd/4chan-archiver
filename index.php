@@ -91,18 +91,18 @@ ENDHTML;
 } else {
 	echo <<<ENDHTML
     <tr>
-        <td><b>SAFE MODE</b></td>
+        <td><b>SAFE MODE enabled. No threads can be added.</b></td>
 		<td colspan="2"> </td>
     </tr>
     <tr>
-        <td>SAFE MODE</td>
-		<td>SAFE MODE</td>
-		<td> </td>
+        <td></td>
+		<td></td>
+		<td></td>
     </tr>
     <tr>
-        <td>SAFE MODE</td>
-		<td>SAFE MODE</td>
-        <td>SAFE MODE</td>
+        <td></td>
+		<td></td>
+        <td></td>
     </tr>
 ENDHTML;
 }
