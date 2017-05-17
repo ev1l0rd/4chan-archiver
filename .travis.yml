@@ -3,4 +3,4 @@ php:
   - '5.6'
 
 script: 
-  - find . -type f -name "*.php" -exec php -l {} \; | grep -v 'No syntax errors'
+  - find . -type f -name "*.php" -exec php -l {} \;
