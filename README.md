@@ -1,3 +1,10 @@
+[![GitHub issues](https://img.shields.io/github/issues/ev1l0rd/chan-archivist.svg)](https://github.com/ev1l0rd/chan-archivist/issues)
+[![GitHub stars](https://img.shields.io/github/stars/ev1l0rd/chan-archivist.svg)](https://github.com/ev1l0rd/chan-archivist/stargazers)
+[![GitHub tags](https://img.shields.io/github/tag/ev1l0rd/chan-archivist.svg)](https://github.com/ev1l0rd/chan-archivist/tags)
+[![GitHub license](https://img.shields.io/badge/license-GPL-blue.svg)](https://raw.githubusercontent.com/ev1l0rd/chan-archivist/dev/LICENSE)
+[![GitHub releases](https://img.shields.io/github/release/ev1l0rd/chan-archivist.svg)](https://github.com/ev1l0rd/chan-archivist/releases)
+[![Travis](https://img.shields.io/travis/ev1l0rd/chan-archivist.svg)]()
+
 Note: This is my personal, mostly rewritten and thus incompatible fork of emoose's 4chan-archiver. I've stopped using and maintaining it [in mid 2014](https://www.youtube.com/watch?v=Hhx6IfKrvEQ), but it's still working mostly fine as of ~~2014-12-27~~ 2016-06-13.
 
 ![Example](https://raw.githubusercontent.com/ev1l0rd/4chan-archiver/master/screenshot.jpg)
