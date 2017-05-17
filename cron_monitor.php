@@ -36,9 +36,9 @@ class threadMonitor extends chan_archiver{
 					$threadno=$threadobj->no .PHP_EOL;
 				if ( isset($threadobj->sub) ) {
 					$subject=$threadobj->sub . PHP_EOL;
-				}
-				if (stripos($subject, $filter) !== false){
-					$this->addThread($threadno, $boardwatch, $monitordescription);
+					if (stripos($subject, $filter) !== false){
+						$this->addThread($threadno, $boardwatch, $monitordescription);
+					}
 				}
 			}
 		}
