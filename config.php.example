@@ -1,5 +1,13 @@
 <?php
 $archiver_config = array();
+
+// -----------------------------------------------------------
+// TITLE
+// Used in the title menu of your browser. Default is
+// "chan archivist"
+// -----------------------------------------------------------
+$archiver_config["title"] = "chan archivist";
+
 // -----------------------------------------------------------
 // FOLDER CONFIG
 // e.g. if your script is at /chandl/ these should be set to /chandl/arch/
