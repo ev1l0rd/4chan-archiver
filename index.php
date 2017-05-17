@@ -56,10 +56,8 @@ echo <<<ENDHTML
 <div class="header">
 <form action="?refresh" method="POST">
 ENDHTML;
-if ($archiver_config["safe_mode"] !== "true"){
-	echo <<<ENDHTML
 <table class="add">
-ENDHTML;
+if ($archiver_config["safe_mode"] !== "true"){
 if (isset($_SESSION['returnvar']) && $_SESSION['returnvar'] != "" && $rtrn = $_SESSION['returnvar'])
 {
     echo <<<ENDHTML
