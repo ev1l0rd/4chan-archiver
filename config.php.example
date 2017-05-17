@@ -30,4 +30,19 @@ $archiver_config["mysql_host"] = "localhost";
 $archiver_config["mysql_user"] = "";
 $archiver_config["mysql_pass"] = "";
 $archiver_config["mysql_db"]   = "";
+
+// -----------------------------------------------------------
+// SAFE MODE
+// Set to true to enable safe mode. Safe mode disables all of the following:
+// - The buttons behind the individual threads.
+// - The add box.
+// - The ability to add and remove threads by using web address flags.
+// In practice, this means that the only way to add or delete threads is through
+// cron_monitor.php or by adding manual SQL commands. This is intended to be used
+// for unprotected instances by blocking all methods in which commands can be entered.
+// Threads will still update through the crontab.
+// -----------------------------------------------------------
+
+$archiver_config["safe_mode"] = "false";
+
 ?>

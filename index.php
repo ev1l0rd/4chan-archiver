@@ -6,6 +6,7 @@ include "chan_archiver.php";
 $t = new chan_archiver();
 
 $return = "";
+if ($archiver_config["safe_mode"] === "true"){
 if (isset($_REQUEST['del']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
     $return .= $t->removeThread($_REQUEST['id'], $_REQUEST['brd'], $_REQUEST['files']);
 if (isset($_REQUEST['chk']) && isset($_REQUEST['id']) && isset($_REQUEST['brd']))
@@ -32,6 +33,7 @@ if (isset($_REQUEST['add']) && isset($_REQUEST['url'])) {
         $_REQUEST['desc'] = "";
     if ($c = preg_match_all("/.*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?(?:[a-z][a-z0-9_]*).*?((?:[a-z][a-z0-9_]*)).*?(\d+)/is", $_REQUEST['url'], $matches))
         $return .= $t->addThread($matches[2][0], $matches[1][0], $_REQUEST['desc']);
+}
 }
 if ($return != "") {
     $_SESSION['returnvar'] = $return;
