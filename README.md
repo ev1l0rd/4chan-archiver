@@ -27,6 +27,7 @@ The features I (ev1l0rd) added:
 * Modified: CSS buttons and description boxes have their color set to black to ensure readability.
 * New: [Safe mode](https://github.com/ev1l0rd/4chan-archiver/wiki/safe-mode.php) - Disables all methods of input in index.php (includes undocumented parameters such as add). Basically blocks all additions or modifications to a thread, except through PHPmyAdmin or threads added through cron_monitor.php . Pages will continue to be updated if you have the cronjob set up.
 * New: Confirm dialog before removing threads.
+
 To-Do:
 * Modify cron_monitor.php to also check for thread body. - Subject is not always set.
 * Add table prefixes. - The program only uses two databases at the moment. It is a waste (and annoying for shared hosting which limits the amount of mySQL DBs) to force the archiver to one DB per instance.

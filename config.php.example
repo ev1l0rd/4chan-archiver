@@ -34,10 +34,12 @@ $archiver_config["zip_threads"] = false;
 // self explanatory
 // -----------------------------------------------------------
 
-$archiver_config["mysql_host"] = "localhost";
-$archiver_config["mysql_user"] = "";
-$archiver_config["mysql_pass"] = "";
-$archiver_config["mysql_db"]   = "";
+$archiver_config["mysql_host"]		= "localhost";
+$archiver_config["mysql_user"]		= "";
+$archiver_config["mysql_pass"]		= "";
+$archiver_config["mysql_db"]		= "";
+// Broken until install script is implemented (SQL files can't have db prefixes). Needs to be set however, otherwise code breaks.
+$archiver_config["mysql_prefix"]	= "";
 
 // -----------------------------------------------------------
 // SAFE MODE
