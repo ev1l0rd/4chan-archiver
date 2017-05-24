@@ -243,7 +243,7 @@ class chan_archiver {
         $description = str_replace("\"", "", $description);
         $description = preg_replace("/[ ]{2,}/", " ", $description);
         $description = trim($description);
-        $query = mysqli_query($this->mysql,sprintf("INSERT INTO `Threads` (`ID`, `Board`, `Status`, `LastChecked`, `Description`, `TimeAdded`) VALUES ('%s', '%s', '1', '0', '%s', '%s')", $threadid, $board, $description, time()));
+        $query = mysqli_query($this->mysql,sprintf("INSERT INTO `".$archiver_config["mysql_prefix"]."Threads` (`ID`, `Board`, `Status`, `LastChecked`, `Description`, `TimeAdded`) VALUES ('%s', '%s', '1', '0', '%s', '%s')", $threadid, $board, $description, time()));
         if (!$query)
             die('Could not add thread: ' . mysqli_error());
         $this->closeDB();
