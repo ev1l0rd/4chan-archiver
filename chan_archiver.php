@@ -232,6 +232,7 @@ class chan_archiver {
 
     public function addThread($threadid, $board, $description) {
         $this->connectDB();
+	global $archiver_config;
         // check if we already have it
         $query = mysqli_query($this->mysql,sprintf("SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `ID` = '%s' AND Board = '%s'", $threadid, $board));
         if (!$query)
