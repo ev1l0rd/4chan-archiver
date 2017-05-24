@@ -114,6 +114,7 @@ class chan_archiver {
 	}
 
     public function checkThreads($onlyMarkedThreads, $onlyFastThreads, $onlyRecentThreads, $verbose) {
+	global $archiver_config;
         $this->connectDB();
         $query_text = "SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `Status` = '1'";
         if ($onlyMarkedThreads || $onlyFastThreads || $onlyRecentThreads) $query_text .= " AND (";
@@ -277,6 +278,7 @@ class chan_archiver {
     }
 
     public function setThreadDescription($threadid, $board, $description) {
+	global $archiver_config;
         $this->connectDB();
         // check if we already have it
         $query = mysqli_query($this->mysql,sprintf("SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `ID` = '%s' AND Board = '%s'", $threadid, $board));
@@ -294,6 +296,7 @@ class chan_archiver {
     }
 
     public function toggleMarkedThread($threadid, $board) {
+	global $archiver_config;
         $this->connectDB();
         // check if we already have it
         $query = mysqli_query($this->mysql,sprintf("SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `ID` = '%s' AND Board = '%s'", $threadid, $board));
@@ -312,6 +315,7 @@ class chan_archiver {
     }
 
     public function reactivateThread($threadid, $board) {
+	global $archiver_config;
         $this->connectDB();
         $query = mysqli_query($this->mysql,sprintf("SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `ID` = '%s' AND Board = '%s'", $threadid, $board));
         if (!$query)
@@ -324,6 +328,7 @@ class chan_archiver {
     }
 
 	public function getThreadCount($onlyOngoing = false) {
+	global $archiver_config;
         $this->connectDB();
         if ($onlyOngoing)
             $query = mysqli_query($this->mysql,"SELECT COUNT(*) AS 'Count' FROM `".$archiver_config["mysql_prefix"]."Threads` WHERE `Status` = '1'");
@@ -338,6 +343,7 @@ class chan_archiver {
     }
 
     public function getThreads() {
+	global $archiver_config;
         $this->connectDB();
         $query = mysqli_query($this->mysql,"SELECT * FROM `".$archiver_config["mysql_prefix"]."Threads` ORDER BY `Marked` DESC, `Board`, `TimeAdded`, `ID` ASC");
         if (!$query)
