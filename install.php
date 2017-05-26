@@ -4,6 +4,8 @@ class installer {
 	private $sqlcommands;
 	private $configfile;
 	private $configsettings;
+	private $safemode;
+	private $zipthreads;
 	function dbconnect(){
         	if (!$this->mysql) {
         	    $this->mysql = mysql_connect($_POST['hostname'], $archiver_config['username'], $archiver_config['password']);
@@ -11,8 +13,9 @@ class installer {
         	        die('Could not connect: ' . mysql_error());
         	    mysql_select_db($archiver_config['database'], $this->mysql);
 		}
+	}
 	function dbsetup(){
-		$this->dbconnect()
+		$this->dbconnect();
 		$sqlcommands = "CREATE TABLE IF NOT EXISTS `".$_POST["prefix"]."Posts` (
   `ID` int(15) NOT NULL,
   `ThreadID` int(15) NOT NULL,
@@ -32,14 +35,14 @@ CREATE TABLE IF NOT EXISTS `".$_POST["prefix"]."Threads` (
   `NewestPostTime` int(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 		$configfile = fopen("config.php", "a");
-		$configsettings = '$archiver_config["mysql_host"]		= "'."$_POST['hostname']".'";' . PHP_EOL . '
-$archiver_config["mysql_user"]		= "'."$_POST['username']".'";' . PHP_EOL . '
-$archiver_config["mysql_pass"]		= "'."$_POST['password']".'";' . PHP_EOL . '
-$archiver_config["mysql_db"]		= "'."$_POST['database']".'";' . PHP_EOL . '
-$archiver_config["mysql_prefix"]	= "'."$_POST['prefix']".'";' . PHP_EOL;
+		$configsettings = '$archiver_config["mysql_host"]		= "'.$_POST['hostname'].';' . PHP_EOL . '
+$archiver_config["mysql_user"]		= "'.$_POST['username'].'";' . PHP_EOL . '
+$archiver_config["mysql_pass"]		= "'.$_POST['password'].'";' . PHP_EOL . '
+$archiver_config["mysql_db"]		= "'.$_POST['database'].'";' . PHP_EOL . '
+$archiver_config["mysql_prefix"]	= "'.$_POST['prefix'].'";' . PHP_EOL;
 		fwrite($configfile,$configsettings);
 		fclose($configfile);
-		touch(".dbsetup");
+		touch(".setup");
 	}
 	function createconfig(){
 		$configfile = fopen("config.php", "w");
@@ -47,23 +50,38 @@ $archiver_config["mysql_prefix"]	= "'."$_POST['prefix']".'";' . PHP_EOL;
 		fwrite($configfile,$configsettings);
 		fclose($configfile);
 	}
+	function configsetup(){
+		if (isset($_POST["safemode"])){
+	$safemode='$archiver_config["safe_mode"] = "true";';
+} else { 
+	$safemode='$archiver_config["safe_mode"] = "false";'; 
+};
+		if (isset($_POST["zipthreads"])){
+	$zipthreads='$archiver_config["zip_threads"] = true;';
+} else { 
+	$zipthreads='$archiver_config["zip_threads"] = false;';
+};
+		$configfile = fopen("config.php", "a");
+		$configsettings = '$archiver_config["title"] = "'.$_POST['archivetitle'].'";'. PHP_EOL . '
+$archiver_config["storage"] = '.$_POST['serverpath'].'";'. PHP_EOL . '
+$archiver_config["storage"]'.$_POST['publicpath'].'";'. PHP_EOL .
+"$safemode" . PHP_EOL .
+"$zipthreads" . PHP_EOL;
+		fwrite($configfile,$configsettings);
+		fclose($configfile);
+	}
 }
 
-if (isset($_POST["hostname"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["database"]) && isset($_POST["prefix"])) {
+if (isset($_POST["hostname"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["database"]) && isset($_POST["prefix"]) && isset($_POST["archivetitle"]) && isset($_POST["serverpath"]) && isset($_POST["publicpath"])) {
 	
 }
-if (!file_exists(".setup") {
+if (!file_exists(".setup")) {
 echo <<<ENDHTML
 <html>
 <body>
 
 <h2>chan-archivist install script</h2>
 <p>All these options can later be reconfigured by editing config.php .</p>
-
-ENDHTML;
-
-if(!file_exists(".dbsetup") {
-echo <<<ENDHTML
 <h3>Database Setup</h3>
 <form action="install.php" method="post">
 mySQL host:<br>
@@ -76,16 +94,19 @@ mySQL database:<br>
 <input type="text" name="database"/><br>
 mySQL table prefix (optional):<br>
 <input type="text" name="prefix"/><br>
+Archive title:<br>
+<input type="text" name="archivetitle" value="chan-archivist"/><br>
 Storage path on server (end with a slash!):<br>
-<input type="text" name="serverpath"/>
+<input type="text" name="serverpath"/><br>
 URL to storage path:<br>
-<input type="text" name="publicpath"/>
+<input type="text" name="publicpath"/><br>
 Start in <a href="https://github.com/ev1l0rd/chan-archivist/wiki/safe-mode.php">Safe mode</a>?
-<input type="checkbox" value="safemode">I want to enable safe mode.
+<input type="checkbox" name="safemode" value="yes"/>I want to enable safe mode.
+Zip threads when they 404?
+<input type="checkbox" name="zipthreads" value="yes"/>Zip 'em up!
 <input type="submit" value="Submit"/>
 </form>
 ENDHTML;
-}
 
 
 } else {
