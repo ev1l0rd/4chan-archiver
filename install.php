@@ -38,8 +38,14 @@ $archiver_config["mysql_pass"]		= "'."$_POST['password']".'";' . PHP_EOL . '
 $archiver_config["mysql_db"]		= "'."$_POST['database']".'";' . PHP_EOL . '
 $archiver_config["mysql_prefix"]	= "'."$_POST['prefix']".'";' . PHP_EOL;
 		fwrite($configfile,$configsettings);
-		fclose($myfile);
+		fclose($configfile);
 		touch(".dbsetup");
+	}
+	function createconfig(){
+		$configfile = fopen("config.php", "w");
+		$configsettings = '<?php'.PHP_EOL;
+		fwrite($configfile,$configsettings);
+		fclose($configfile);
 	}
 }
 
