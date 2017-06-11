@@ -55,4 +55,14 @@ $archiver_config["mysql_prefix"]	= "";
 
 $archiver_config["safe_mode"] = "false";
 
+// -----------------------------------------------------------
+// CUSTOM CSS
+// Specify any CSS file here to load it.
+// Look at style.css for the default CSS.
+// Unset CSS classes are just loaded from style.css even if
+// you change this config. If an override doesn't work,
+// add !important to it.
+// -----------------------------------------------------------
+
+$archiver_config["style"] = "style.css"
 ?>

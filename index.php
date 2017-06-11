@@ -44,6 +44,7 @@ if ($return != "") {
 $threadCount = $t->getThreadCount();
 $ongoingThreadCount = $t->getThreadCount(true);
 $title = $archiver_config['title'];
+$style = $archiver_config['style'];
 echo <<<ENDHTML
 <!DOCTYPE html>
 <html>
@@ -51,6 +52,7 @@ echo <<<ENDHTML
     <title>$ongoingThreadCount/$threadCount - $title</title>
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="$style">
 </head>
 <body>
 <div class="header">
