@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.6](https://github.com/ev1l0rd/chan-archivist/tree/v0.6) (2017-06-11)
+[Full Changelog](https://github.com/ev1l0rd/chan-archivist/compare/v0.5...v0.6)
+
+**Implemented enhancements:**
+
+- Add theming support. [\#4](https://github.com/ev1l0rd/chan-archivist/issues/4)
+
 ## [v0.5](https://github.com/ev1l0rd/chan-archivist/tree/v0.5) (2017-05-23)
 [Full Changelog](https://github.com/ev1l0rd/chan-archivist/compare/v0.4...v0.5)
 
