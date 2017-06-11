@@ -70,10 +70,16 @@ $archiver_config["storage"]'.$_POST['publicpath'].'";'. PHP_EOL .
 		fwrite($configfile,$configsettings);
 		fclose($configfile);
 	}
+	function finalize(){
+		fopen(".setup","w");
+	}
 }
 
 if (isset($_POST["hostname"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["database"]) && isset($_POST["prefix"]) && isset($_POST["archivetitle"]) && isset($_POST["serverpath"]) && isset($_POST["publicpath"])) {
-	
+	$t = new installer();
+	$t->createconfig();
+	$t->dbsetup();
+	$t->configsetup();
 }
 if (!file_exists(".setup")) {
 echo <<<ENDHTML
