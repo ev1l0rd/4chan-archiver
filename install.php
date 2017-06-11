@@ -8,10 +8,10 @@ class installer {
 	private $zipthreads;
 	function dbconnect(){
         	if (!$this->mysql) {
-        	    $this->mysql = mysql_connect($_POST['hostname'], $archiver_config['username'], $archiver_config['password']);
+        	    $this->mysql = mysql_connect($_POST['hostname'], $_POST['username'], $_POST['password']);
         	    if (!$this->mysql)
         	        die('Could not connect: ' . mysql_error());
-        	    mysql_select_db($archiver_config['database'], $this->mysql);
+        	    mysql_select_db($_POST['database'], $this->mysql);
 		}
 	}
 	function dbsetup(){
@@ -80,6 +80,7 @@ if (isset($_POST["hostname"]) && isset($_POST["username"]) && isset($_POST["pass
 	$t->createconfig();
 	$t->dbsetup();
 	$t->configsetup();
+	$t->finalize();
 }
 if (!file_exists(".setup")) {
 echo <<<ENDHTML
@@ -106,10 +107,10 @@ Storage path on server (end with a slash!):<br>
 <input type="text" name="serverpath"/><br>
 URL to storage path:<br>
 <input type="text" name="publicpath"/><br>
-Start in <a href="https://github.com/ev1l0rd/chan-archivist/wiki/safe-mode.php">Safe mode</a>?
-<input type="checkbox" name="safemode" value="yes"/>I want to enable safe mode.
-Zip threads when they 404?
-<input type="checkbox" name="zipthreads" value="yes"/>Zip 'em up!
+Start in <a href="https://github.com/ev1l0rd/chan-archivist/wiki/safe-mode.php">Safe mode</a>?<br>
+<input type="checkbox" name="safemode" value="yes"/>I want to enable safe mode.<br>
+Zip threads when they 404?<br>
+<input type="checkbox" name="zipthreads" value="yes"/>Zip 'em up!<br>
 <input type="submit" value="Submit"/>
 </form>
 ENDHTML;
