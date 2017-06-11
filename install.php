@@ -75,7 +75,7 @@ $archiver_config["storage"]'.$_POST['publicpath'].'";'. PHP_EOL .
 	}
 }
 
-if (isset($_POST["hostname"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["database"]) && isset($_POST["prefix"]) && isset($_POST["archivetitle"]) && isset($_POST["serverpath"]) && isset($_POST["publicpath"])) {
+if (isset($_POST["confirm"]) && isset($_POST["publicpath"])) {
 	$t = new installer();
 	$t->createconfig();
 	$t->dbsetup();
@@ -111,6 +111,7 @@ Start in <a href="https://github.com/ev1l0rd/chan-archivist/wiki/safe-mode.php">
 <input type="checkbox" name="safemode" value="yes"/>I want to enable safe mode.<br>
 Zip threads when they 404?<br>
 <input type="checkbox" name="zipthreads" value="yes"/>Zip 'em up!<br>
+<input type="checkbox" name="confirm" value="yes"/>Tick this once you have set all the options<br>
 <input type="submit" value="Submit"/>
 </form>
 ENDHTML;
