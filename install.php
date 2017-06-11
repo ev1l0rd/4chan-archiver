@@ -1,4 +1,5 @@
 <?php
+/* Eternally broken until I decide to fix it. Message to future me: F1X TH1S */
 class installer {
 	private $mysql;
 	private $sqlcommands;
